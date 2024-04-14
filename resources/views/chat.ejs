@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="css/style.css" />
+
+<div class="all">
+  <ul class="user_list">
+    <% accounts.forEach(account => {%>
+    <li>
+      <div class="user">
+        Username: <p><%= account.username %></p>
+      </div>
+    </li>
+    <% }) %>
+  </ul>
+  <div class="container">
+    <div class="lobby">
+      <input type="text" id="room" placeholder="room" />
+      <button class="button-6" id="btn_join">Join</button>
+    </div>
+    <div class="chatbox">
+      <ul id="ul_message"></ul>
+    </div>
+    <div class="send">
+      <input type="text" id="ip_message" placeholder="message" />
+      <button class="button-6" id="btn_send">Send</button>
+    </div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/client.js"></script>

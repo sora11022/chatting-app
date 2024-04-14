@@ -1,0 +1,134 @@
+<form>
+  <caption>
+    <h1>Login</h1>
+  </caption>
+  <input
+    type="text"
+    name="username"
+    placeholder="type username"
+    id="ip_username"
+  />
+  <br />
+  <input
+    type="text"
+    name="password"
+    placeholder="your password"
+    id="ip_password"
+  />
+  <button id="btn_login">Sign in</button>
+</form>
+<form>
+  <caption>
+    <h1>Register</h1>
+  </caption>
+  <input
+    type="text"
+    name="username"
+    placeholder="type username"
+    id="ip_username_reg"
+  />
+  <br />
+  <input
+    type="text"
+    name="password"
+    placeholder="your password"
+    id="ip_password_reg"
+  />
+  <br />
+  <input
+    type="text"
+    name="password"
+    placeholder="your password"
+    id="ip_re_password"
+  />
+  <br />
+  <input
+    type="text"
+    name="full_name"
+    id="ip_fullname"
+    placeholder="enter ur name"
+  />
+  <button id="btn_register">Sign up</button>
+</form>
+
+<script>
+  //login
+  const btn_login = document.getElementById('btn_login');
+  const ip_username = document.getElementById('ip_username');
+  const ip_password = document.getElementById('ip_password');
+
+  btn_login.addEventListener('click', () => {
+    const username = ip_username.value;
+    const password = ip_password.value;
+
+    const obj = {
+      username,
+      password,
+    };
+    fetch('/api/accounts/login', {
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify(obj),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.statusCode) {
+          alert(result.message);
+        } else {
+          localStorage.setItem('username', result.username)
+          window.location = '/chat';
+        }
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  });
+</script>
+<script>
+  //registration
+  const btn_register = document.getElementById('btn_register');
+  const ip_username_reg = document.getElementById('ip_username_reg');
+  const ip_password_reg = document.getElementById('ip_password_reg');
+  const ip_re_password = document.getElementById('ip_re_password');
+  const ip_fullname = document.getElementById('ip_fullname');
+
+  btn_register.addEventListener('click', () => {
+    const username = ip_username_reg.value;
+    const password = ip_password_reg.value;
+    const rePassword = ip_re_password.value;
+    const full_name = ip_fullname.value;
+
+    if (password !== rePassword) {
+      alert('password does not matches');
+      return;
+    }
+
+    const obj = {
+      username,
+      password,
+      full_name,
+    };
+    fetch('/api/accounts/register', {
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify(obj),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.statusCode) {
+          alert(result.message);
+        } else {
+          alert('Signing up successfully')
+        }
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  });
+</script>
